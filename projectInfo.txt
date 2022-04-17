@@ -1,0 +1,64 @@
+>>>>>>> Project Procedure <<<<<<<
+Django Docker 101
+
+YT Link: https://www.youtube.com/watch?v=W5Ov0H7E_o4
+YT Channel: Very Academy
+
+
+# Install Docker in the mother system.
+  Follow the docker-article to install Docker inside the ubuntu OS.
+
+  Link: https://docs.docker.com/engine/install/ubuntu/
+
+
+
+1. Create a simple Dj project. Create 'views.py' file & 'templates' directory inside the application's setting directory.
+
+2. Install the 'core' app (project's setting directory) inside the 'INSTALLED_APP' section of the 'settings.py' file.
+
+3. Create an 'index.html' file inside the 'templates' folder. Create a view-func to render that HTML file. Setup an url inside the 'core/urls.py' file.
+
+4. Fire up the server to access that HTML file from the browser.
+
+[NB]: Execute the 'makemigrations' & 'migrate' command in order to setup a development DB (db.sqlite3) for the project.
+
+5. Create a file called 'Dockerfile' aligning to the scope of 'manage.py' file.
+
+6. Build our docker file using text documents inside the 'Dockerfile'. 
+    It'll contain the commands & instructions that are going to be required to assemble the docker-image.
+    Use the follwing command to build the 'Dockerfile'.
+
+    # Get the 'alpine:3.4' OS.
+        FROM alpine:3.14
+
+    # Specify a folder where our Dj app will be stored inside the Alpine OS. This will route the docker to that directory.
+        WORKDIR /app
+    
+    # Copy the 'requirements.txt' file inside the iamge's filesystem.
+        COPY requirements.txt requirements.txt
+    [NB]: The 'requirements.txt' file must need to be aligned to the 'Dockerfile'.
+
+    # Run the 'requirements.txt' inside the image's filesystem. Thus it'll build the same python-environment inside the Alpine:3.14 OS.
+        RUN pip3 install -r requirements.txt
+    [NB]: It'd be "pip3", otherwise, it'll give an error.
+
+    # Copy all the other directories/sub-directories of this Dj-project inside the docker image's filesystem in order to run our application inside the container.
+        COPY . .
+    [NB]: The first dot (".") is mentioning all the folders aligning with the 'Dockerfile' while the second one is mentioning the '/app' folder inside the image's filesystem.
+
+    # Now write a command inside the 'Dockerfile' in order to run the Dj-server inside the container.
+        CMD ["python", "manage.py", "runserver"]
+
+    # Now make our application to be accessible from outside of the container. Thus, setup a network-address "0.0.0.0:8080" along with the above command.
+        CMD ["python", "manage.py", "runserver", "0.0.0.0:8080"]
+    
+    # [Note]: We don't want to copy the 'env' folder inside our docker container. Thus we will create a folder called '.dockerignore' aligning to the file-directory of 'Dockerfile.'. 
+    There will be dot (".") at the beginning & the end of the "dockerignore" file. Then exlude the 'env' folder from containarizing.
+    
+    # Now we can create a docker image with these commands.
+    Create a 'commands.txt' file to contain the commands to create an docker image. This file will be aligning to the file 'Dockerfile'.
+
+
+[IMPORTANT]: The commands to build a docker-image including this django-app within itself is written inside the "core/commands.txt" file.
+[Note]: Before building/ running a docker image/ container, the 'Docker' is required to be installed inside the host machine.
+

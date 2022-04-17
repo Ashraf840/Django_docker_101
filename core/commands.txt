@@ -1,0 +1,7 @@
+# build a docker image from the terminal directory where the 'Dockerfile' exist.
+    docker build --tag python-django .
+
+# build & run the container on the newly created image
+    docker run --publish 8080:8080 python-django
+
+# [NB]: The first "8080" maps accross the container port to the host-machine's port "8080" (second port after the colon).
