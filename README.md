@@ -1,11 +1,7 @@
-# Profiles REST API #
-
-**DEPRECATED**
-
-This project has moved to: https://github.com/LondonAppDev/profiles-rest-api
-
 # Django, SQLite, Docker, Docker Compose
-> This project uses a simple sqLite db for the demo purpose.
+> This project uses a simple sqLite db for the demo purpose. <br>
+**Borrowed Boilerplate codebase**: https://github.com/LondonAppDev/profiles-rest-api <br>
+**YT Video Link**: [Dockerizing a Django REST Framework Project](https://www.youtube.com/watch?v=Y_rh-VeC_j4)
 
 Docker has 2 stages: **build** & **run**. <br>
     **Build**: Docker looks for the Dockerfile, created an image & run all the commands declared in the DOckerfile. <br>
