@@ -4,7 +4,7 @@
 
 This project has moved to: https://github.com/LondonAppDev/profiles-rest-api
 
-# Ashraf840
+# Django, SQLite, Docker, Docker Compose
 > This project uses a simple sqLite db for the demo purpose.
 
 Docker has 2 stages: **build** & **run**. <br>
