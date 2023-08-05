@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    command: python src/profiles_project/manage.py runserver 0.0.0.0:8080
+    image: docker-compose-101:latest
+    volumes:
+      - .:/code
+    ports:
+      - "8001:8080"
