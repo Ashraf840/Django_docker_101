@@ -1,7 +1,8 @@
 # Django, Postgresql, Docker, Docker Compose
 > This project uses a simple sqLite db for the demo purpose. <br>
 **Borrowed Boilerplate codebase**: https://github.com/LondonAppDev/profiles-rest-api <br>
-**YT Video Link**: [Dockerizing a Django REST Framework Project](https://www.youtube.com/watch?v=Y_rh-VeC_j4)
+**YT Video Link**: [Setting up PostgreSQL database with a Django Docker application
+](https://www.youtube.com/watch?v=610jg8bK0I8)
 
 Docker has 2 stages: **build** & **run**. <br>
     **Build**: Docker looks for the Dockerfile, created an image & run all the commands declared in the DOckerfile. <br>
