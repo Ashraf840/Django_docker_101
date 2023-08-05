@@ -4,8 +4,23 @@ services:
   web:
     build: .
     command: python src/profiles_project/manage.py runserver 0.0.0.0:8080
-    image: docker-compose-101:latest
+    image: docker-compose-102:latest
+    container_name: docker-compose-102-codebase-container
     volumes:
       - .:/code
     ports:
       - "8001:8080"
+    depends_on:
+      - db
+  db:
+    image: postgres:latest
+    container_name: docker-compose-102-db-container
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    ports:
+      - "8002:5432"
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+

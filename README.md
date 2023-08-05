@@ -1,4 +1,4 @@
-# Django, SQLite, Docker, Docker Compose
+# Django, Postgresql, Docker, Docker Compose
 > This project uses a simple sqLite db for the demo purpose. <br>
 **Borrowed Boilerplate codebase**: https://github.com/LondonAppDev/profiles-rest-api <br>
 **YT Video Link**: [Dockerizing a Django REST Framework Project](https://www.youtube.com/watch?v=Y_rh-VeC_j4)
@@ -10,25 +10,31 @@ Docker has 2 stages: **build** & **run**. <br>
 ## Procedure
 **Dockerfile**
 - Create a Dockerfile which will be used to copy the source code into the dcoker container.
-- It'll also install the required python packages into the container's python environment.
+- It'll also install the required python packages into the container's python environment. <br>
+
 **docker-compose.yml**
-- Useful tool for docker containers while we want to cluster multiple different containers by setting dependecies between them.
-- Create a single web service initially. 
-- Its command will start the django server at 0.0.0.0:8080
-    - [**Syntax**] `python project-root-dir/manage.py runserver 0.0.0.0:8080 `
-    - [**Exact**]  `python src/profiles_project/manage.py runserver 0.0.0.0:8080`
-- Its volume is mapped to the host machine's code within its docker file. So that, it'll automatically effect the mapping of that docker container if anything is modified in the source code. <br>
-(*NB: It'll avoid the hassle of rebuilding & running the container each time we change something in the source code*)
-- Port forwarding from the container to the local machine is defined as below.
+- Modify the exisiting docker-compose.yml file to add postgres-db as a new srevice. (NB: This new db-service will be connected to the web-service)
+- Unlike the web-service which build image from the current directory, the docker-compose will look for the latest postgres-db-image from the internet.
+    - `image: postgres:latest`
+- Before the web-service is ever to run, the db-service is required to perform first. Thus, we need to declare a new item `depends_on` in the web-service.
+    - `depends_on: - db` <br>
+    (*NB: This `db` is the db-service-name defined in the docker-compose.yml file.*)
+- Install '**psycopg2-binary**' python-libray in order to work with postgresql.
+- Change the DATABASE configuration in the src/profiles_project/profiles_project/settings.py file in accordance with the db-credentials (*will be defined*) in the db-service.
+- Add volumes to this db-service (**./pgdata/**). Thus it'll make the project's db-volume consistent regardless of the docker containers.
+- Port forwarding (*db-service*) from the container to the local machine is defined as below.
     - [**Syntax**] hostPort:containerPort
-    - [**Exact**]  `8001:8080`
-- The migration is required in order to run the django project using a db. Thus, we need to override the command inside the docker-compose.yml file using the following command. <br>
-    - **makemigrations**
-        - [**Syntax**] `docker compose run serviceName python project-root-dir/manage.py makemigrations`
-        - [**Syntax**] `docker compose run serviceName python src/profiles_project/manage.py makemigrations`
-    - **migrate**
-        - [**Syntax**] `docker compose run serviceName python project-root-dir/manage.py migrate`
-        - [**Syntax**] `docker compose run serviceName python src/profiles_project/manage.py migrate`
+    - [**Exact**]  `8002:5432` 
+- Define the environment-variables of db-service which will be used as credentials of web-service in order to properly functioning.
+- Define new image name for both the web & db services.
+    - [web] `image: docker-compose-102:latest`
+    - [db] `image: postgres:latest`
+- Define new container names for both the services.
+    - [web] `container_name: docker-compose-102-codebase-container`
+    - [db] `container_name: docker-compose-102-db-container`
+- It's required to perform the migrations to the postgres-db-service uisng the following command. (*NB: Change to root-user before performing the migration operation*)
+    - [migrations] `docker compose run web python src/profiles_project/manage.py makemigrations`
+    - [migrate] `docker compose run web python src/profiles_project/manage.py migrate`
 - The `build` command will manually build the image without running the container. Whereas, the `up` with `-d` command will automatically build the image including starting up the container & service(s) within in the backgound.
     - `docker compose build`
     - `docker compose up -d`
