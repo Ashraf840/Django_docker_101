@@ -11,6 +11,7 @@ Docker has 2 stages: **build** & **run**. <br>
 **Dockerfile**
 - Create a Dockerfile which will be used to copy the source code into the dcoker container.
 - It'll also install the required python packages into the container's python environment.
+
 **docker-compose.yml**
 - Useful tool for docker containers while we want to cluster multiple different containers by setting dependecies between them.
 - Create a single web service initially. 
