@@ -1,6 +1,4 @@
-Buidl a docker image based on ubuntu:22.04
-This image is instructed to install redis-server & lastly run redis-server. The last command is the entrypoint of the docker-container build with this image later.
------------------------------------------------------ [Note whcih packages are required to isntall & run nginx properly]
-After noting the required steps to work with nginx inside a container, write a Dockerfile basing on the custom docker image (ubuntu-22.04:redis-server-1.1).
-Lastly check this new docker image by running in the laptop.
-
+Build a docker image based on ubuntu:22.04
+This image is instructed to install redis-server. The last command is the entrypoint of the docker-container build with this image later.
+----------------------------------
+Instead of running a single CMD directly from the Dockerfile, execute a "redis.sh" file.
