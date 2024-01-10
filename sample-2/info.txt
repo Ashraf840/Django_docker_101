@@ -1,4 +1,4 @@
 Build a docker image based on ubuntu:22.04
 This image is instructed to install redis-server. The last command is the entrypoint of the docker-container build with this image later.
 ----------------------------------
-Instead of running a single CMD directly from the Dockerfile, execute a "redis.sh" file.
+Instead of running a single CMD directly from the Dockerfile, execute a "script.sh" file.
