@@ -11,4 +11,7 @@ RUN apt update \
 
 EXPOSE 6379
 
-CMD [ "sh" , "-c", "cd ./shell-scripts/script.sh" ]
+COPY ./shell-scripts/script.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/script.sh
+
+CMD ["sh", "-c", "/usr/local/bin/script.sh"]
