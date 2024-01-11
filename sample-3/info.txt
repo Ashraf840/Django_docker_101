@@ -3,4 +3,7 @@ This image is instructed to install redis-server & lastly run redis-server. The 
 ----------------------------------------------------- [Note whcih packages are required to isntall & run nginx properly]
 After noting the required steps to work with nginx inside a container, write a Dockerfile basing on the custom docker image (ubuntu-22.04:redis-server-1.1).
 Lastly check this new docker image by running in the laptop.
-
+Resources: The related shell-script file contains how to run nginx as "daemon off" mode. This script file will be executed as the entrypoint of the docker containers build from this docker image.
+Idea for defining to run nginx this way directly in the CMD instrcution of the Dockerfile: https://stackoverflow.com/a/58430795
+Idea for defining to run nginx this way throguh shell-script file in the CMD instrcution of the Dockerfile: Provided the solution by chatGPT. 
+  The searching keyword were "how to convert this command "CMD ["nginx", "-g", "daemon off;"]" into a shell script file which will be execute by the CMD instructions of the dockerfile".
