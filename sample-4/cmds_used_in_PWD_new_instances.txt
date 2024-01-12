@@ -1,0 +1,79 @@
+# Initial commands to initialize git with personal github account
+
+## Play folder Setup (DockerFile resides)
+->  mkdir Docker
+
+->  cd Docker && mkdir sample-X && cd sample-X
+
+->  Pull the existing working code from the "multi_stage_docker_images" branch of the "Django_docker_101" repo using token.
+	->  git clone -b multi_stage_docker_images https://Ashraf840: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@github.com/Ashraf840/Django_docker_101.git
+
+## Git Setup
+->  git init
+
+->  git branch -m multi_stage_docker_images
+
+->  git remote add origin https://Ashraf840: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@github.com/Ashraf840/Django_docker_101.git
+
+
+## Docker CMDs (Redis-server only)
+->  docker build -t ubuntu-22.04:redis-server-1.0 .
+	-> [Sample-1] docker build -t ubuntu-22.04:nginx-1.0 .
+
+->  docker run -d -it ubuntu-22.04:redis-server-1.0
+->  docker run -d -it --name ubuntu-redis ubuntu-22.04:redis-server-1.0
+NB: If we don't specify the "-d" flag, then the terminal will not be running the docker-container in the background, instead it'll run the container upfront till the terminal is closed. 
+Require to specify "expose port", which afterward required to define port-mapping while running the docker container based on that image.
+->  docker run -d -it -p hostPort:containerPort imageName:tagName
+->  Attach name of the container along with a sample CMD.
+	-> [Sample-1] docker run -d -it --name ubuntu-redis -p 6379:6379 826546/ubuntu-22.04:redis-server-1.0
+	-> [Sample-2] docker run -d -it --name ubuntu-redis -p 6379:6379 ubuntu-22.04:redis-server-1.2
+NB: Useful article for container port-mapping to host machine.
+"https://www.cloudbees.com/blog/docker-expose-port-what-it-means-and-what-it-doesnt-mean#what-is-docker-expose-port"
+
+-> TO run the redis-cli from the host machine to docker container, use the following CMD.
+	->  docker exec -it containerID redis-cli
+
+-> View logs a specific docker container.
+	-> docker logs containerID/
+
+-> Publish an image into public image registry (docker hub). Username is the repository name in docker hub.
+	-> Build the custom image before tagging or pushing the image to the docker hub.
+	-> docker login
+	-> Since the image is downloaded from another repository in docker hub, it's better to change the tag name as following attaching own repoName (dockerhub username/repoName/newBuiltImage).
+		-> docker tag imageName:tagName ownDockerHubRepoName/newBuitImageName
+			-> [Exmaple-1] docker tag ubuntu-22.04:redis-server-1.1 826546/ubuntu-22.04:redis-server-1.1
+			-> [Exmaple-2] docker tag ubuntu-22.04:redis-server-1.2 826546/ubuntu-22.04:redis-server-1.2
+	-> Prodive username (repoName) & password.
+	-> Publish the image into docker hub.
+		-> doker push ownDockerHubRepoName/newBuitImageName:imageTagName
+			-> [Example] docker push 826546/ubuntu-22.04:redis-server-1.2
+	-> Lastly pull the custom image from your own docker hub.
+		-> docker pull 826546/ubuntu-22.04:redis-server-1.1
+
+
+## Manual packages installation
+# Install net-tools inside custom-ubuntu-docker-container (if this package installation is not define inside the Dockerfile)
+-> docker exec -it docntainerID bin/bash
+-> apt-get install net-tools
+# Install nginx inside the ubuntu docker container.
+-> apt-get install nginx
+
+
+## Docker CMDs (Nginx-server only)
+NB: To make nginx run as "daemon off" mode while running the nginx docker container, define the linux command as the following in the "script.sh" file.
+	-> 
+-> Build an image based on the custom ubuntu-redis-server.1.2
+	-> [Exmaple-1] docker build -t ubuntu-22.04:nginx-1.0 .
+-> Run a docker container of the custom nginx image.
+	-> [Example-1] docker run -d -it --name ubuntu-nginx -p 6379:6379 -p 80:80 ubuntu-22.04:nginx-1.0
+
+
+
+
+
+## Enhancing docker container security?
+
+
+
+

@@ -1,0 +1,29 @@
+# Initial commands to initialize git with personal github account
+
+## Play folder Setup (DockerFile resides)
+->  mkdir Docker
+
+->  cd Docker && mkdir sample-X && cd sample-X
+
+->  Pull the existing working code from the "multi_stage_docker_images" branch of the "Django_docker_101" repo.
+	->  git clone -b multi_stage_docker_images https://github.com/Ashraf840/Django_docker_101.git
+
+## Git Setup
+->  git init
+
+->  git branch -m multi_stage_docker_images
+
+->  git remote add origin https://Ashraf840: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@github.com/Ashraf840/Django_docker_101.git
+
+
+## Docker CMDs
+->  docker build -t ubuntu-22.04:redis-server-1.0 .
+
+->  docker run -d -it ubuntu-22.04:redis-server-1.0 
+NB: If we don't specify the "-d" flag, then the terminal will not be running the docker-container in the background, instead it'll run the container upfront till the terminal is closed. 
+Require to specify "expose port", which afterward required to define port-mapping while running the docker container based on that image.
+->  docker run -d -it -p hostPort:containerPort imageName:tagName
+
+
+
+
