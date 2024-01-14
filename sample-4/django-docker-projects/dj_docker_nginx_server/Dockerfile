@@ -8,10 +8,13 @@ RUN apt-get update \
         python3-pip \
         python3-setuptools \
         python3.10-venv \
+        uwsgi \
+        uwsgi-plugin-python3 \
     && python3 -m pip install --upgrade pip \
     && apt upgrade -y \
     && apt clean \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && mkdir -p /etc/uwsgi/vassals
 
 WORKDIR /django
 
@@ -22,6 +25,8 @@ RUN python3 -m venv env \
     && pip install -r requirements.txt
 
 COPY . .
+
+COPY ./uwsgi.service /etc/systemd/system/uwsgi.service
 
 EXPOSE 8080
 
