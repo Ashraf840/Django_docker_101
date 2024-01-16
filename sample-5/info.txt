@@ -1,0 +1,9 @@
+Took the inspiration from the following YouTube video link.
+	-> https://www.youtube.com/watch?v=nh1ynJGJuT8&list=TLPQMTUwMTIwMjTHK3Z2GBnkTA&index=1
+
+Use image to build the docker container instead of the current directory's Dockerfile
+Link:  https://stackoverflow.com/a/41481489
+
+To enter the shell into a container service
+	->  docker-compose ps -a
+	->  docker-compose exec -it serviceName sh

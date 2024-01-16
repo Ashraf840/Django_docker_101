@@ -2,7 +2,7 @@ version: '3'
 
 services:
   app:
-    image: '826546/docker101tutorial:apline-dj-uwsgi-1.0'
+    image: 826546/docker101tutorial:apline-dj-uwsgi-1.0
     # build:
     #   context: .
     ports:

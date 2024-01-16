@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  app:
+    image: 826546/docker101tutorial:apline-dj-uwsgi-1.1
+    volumes:
+      - static_data:/vol/web
+    environment:
+      - SECRET_KEY=sampleSecretKey123
+      - ALLOWED_HOSTS=127.0.0.1,localhost
+  proxy:
+    build:
+      context: ./proxy
+    volumes:
+      - static_data:/vol/static
+    ports:
+      - 8080:8080
+    depends_on:
+      - app
+volumes:
+  static_data:
