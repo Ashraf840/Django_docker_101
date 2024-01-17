@@ -7,3 +7,12 @@ Link:  https://stackoverflow.com/a/41481489
 To enter the shell into a container service
 	->  docker-compose ps -a
 	->  docker-compose exec -it serviceName sh
+
+Build & run docker-compose package
+	-> [Specific docker-compose.yml file] docker-compose -f custom-docker-compose.yml up --build
+	-> [Build & run in a detached mode; user "-d" flag] docker-compose up -d
+
+Define a specific host port in the docker-compose yml file.
+	-> ports:
+		- 80:8080
+		The host port of 80 will connect to the clustered container port of 8080.
