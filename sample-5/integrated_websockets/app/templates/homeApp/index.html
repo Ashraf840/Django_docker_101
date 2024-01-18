@@ -3,14 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <title>Document</title>
 </head>
 <body>
-    <h1>Hello World</h1>
-    
+
+    <div class="container">
+        <img src="{{ record.image.url }}" width="50", height="30">
+        <form action="{% url 'uploadok' %}" method = "post" enctype="multipart/form-data" class="form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Upload</button>
+        </form>
+        <input type="text" class="form-control form-control-lg ms-2" id="chat-message-input"
+            placeholder="Type message">
+        <section id="msg-body" class="mt-5"></section>
+    </div>
+    <script>
+        const chat_msg_input_field = document.querySelector('#chat-message-input');
+        chat_msg_input_field.addEventListener("keypress", function (e) {
+            if (e.key === "Enter") {
+                const message = chat_msg_input_field.value;
+                // console.log(`${msg};  Type: ${typeof(msg)};  Length: ${msg.length}`);
+
+                if (message.length > 0) {
+                    HomePageSocket.send(
+                        JSON.stringify({
+                            message: message,
+                        })
+                    );
+                    chat_msg_input_field.value = '';
+                } else {
+                    console.log(`Empty input field!`);
+                }
+            }
+        });
+    </script>
     <script>
         const HomePageSocketURL = `ws://${window.location.host}/ws/homepage/`;
         const HomePageSocket = new WebSocket(HomePageSocketURL);
+        const msg_body = document.querySelector('#msg-body');
 
         HomePageSocket.onopen = function (e) {
             console.log("Frontend Websocket Connected!!");
@@ -18,13 +50,20 @@
 
         HomePageSocket.onmessage = function (e) {
             const data = JSON.parse(e.data);
-            console.log(`Received from backend: ${data}`);
+
+            if (data.message) {
+                let message = `
+                    <p>${data.message}</p>
+                `;
+                msg_body.innerHTML += message;
+            }
         }
 
         HomePageSocket.onclose = function (e) {
             console.log("Frontend Websocket Connection Closed!");
         };
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     
 </body>
 </html>

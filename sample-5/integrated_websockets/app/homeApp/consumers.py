@@ -21,7 +21,20 @@ class homePageConsumer(WebsocketConsumer):
     
     def receive(self, text_data=None, bytes_data=None):
         data = json.loads(text_data)
-        print(f"Receives a data {data}!")
+        if 'message' in data:
+            message = data['message']
+            async_to_sync(self.channel_layer.group_send)(
+                self.room_group_name,
+                {
+                    'type': 'message',
+                    'message': message,
+                }
+            )
+
+    def message(self, event):
+        self.send(text_data=json.dumps({
+            'message': event['message'],
+        }))
 
     def disconnect(self, *args, **kwargs):
         async_to_sync (self.channel_layer.group_discard)(

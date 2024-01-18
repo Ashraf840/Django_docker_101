@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  app-socket:
+    build: 
+      context: .
+      dockerfile: Dockerfile-socket
+    volumes:
+      - static_data:/vol/web
+    environment:
+      - SECRET_KEY=sampleSecretKey123
+      - ALLOWED_HOSTS=127.0.0.1,localhost
+    networks:
+      - socket-network
+    ports:
+      - 8001:8001
+    depends_on:
+      - redis
+    restart: always
+  redis:
+    image: redis:latest
+    command: ["redis-server", "--bind", "redis", "--port", "6379"]
+    networks:
+      - socket-network
+    ports:
+      - 6379:6379
+    restart: always
+  
+volumes:
+  static_data:
+networks:
+  socket-network:

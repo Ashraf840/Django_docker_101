@@ -1,0 +1,27 @@
+FROM python:3.10.13-alpine
+
+COPY ./requirements_docker.txt /requirements_docker.txt
+RUN apk add --update --no-cache --virtual .tmp gcc libc-dev linux-headers redis
+RUN pip install -r /requirements_docker.txt
+RUN apk del .tmp
+
+RUN mkdir /app \
+    && mkdir -p /app/logs \
+    && touch /app/logs/daphne-access.log \
+    && touch /run/app.sock
+
+COPY . .
+WORKDIR /app
+
+RUN mkdir -p /vol/web/media
+RUN mkdir -p /vol/web/static
+
+RUN adduser -D user
+RUN chown -R user:user /vol
+RUN chmod -R 755 /vol/web
+
+EXPOSE 8001
+EXPOSE 6379
+
+CMD ["daphne", "--access-log=/app/logs/daphne-access.log", \
+    "--bind", "unix:/run/app.sock", "-b", "0.0.0.0", "-p", "8001", "app.asgi:application"]

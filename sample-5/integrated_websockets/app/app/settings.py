@@ -24,12 +24,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'changemeDevServer')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(int(os.environ.get('DEBUG', 0)))
+# DEBUG = bool(int(os.environ.get('DEBUG', 0)))   # Original
+DEBUG = bool(int(os.environ.get('DEBUG', 1)))   # Modified
+# DEBUG = True
 
 ALLOWED_HOSTS = []
 ALLOWED_HOSTS_ENV = os.environ.get('ALLOWED_HOSTS')
 if ALLOWED_HOSTS_ENV:
     ALLOWED_HOSTS.extend(ALLOWED_HOSTS_ENV.split(','))
+else:
+    ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -96,6 +100,7 @@ CHANNEL_LAYERS = {
         "CONFIG": {
             "hosts": [
                 ("127.0.0.1", 6379),
+                # ("redis", 6379),
             ],
         },
     },
@@ -146,11 +151,18 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = "/static/static/"
-MEDIA_URL = "/static/media/"
+if DEBUG:
+    # print("Debug True; dev env")
+    STATIC_URL = "/static/"
+    MEDIA_URL = "/media/"
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+else:
+    # print("Debug False; prod env")
+    STATIC_URL = "/static/static/"
+    MEDIA_URL = "/static/media/"
 
-STATIC_ROOT = '/vol/web/static'
-MEDIA_ROOT = '/vol/web/media'
+    STATIC_ROOT = '/vol/web/static'
+    MEDIA_ROOT = '/vol/web/media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

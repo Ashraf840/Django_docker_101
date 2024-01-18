@@ -8,6 +8,9 @@ services:
     environment:
       - SECRET_KEY=sampleSecretKey123
       - ALLOWED_HOSTS=127.0.0.1,localhost
+  redis:
+    image: redis:latest
+    command: ["redis-server", "--bind", "redis", "--port", "6379"]
   proxy:
     build:
       context: ./proxy
