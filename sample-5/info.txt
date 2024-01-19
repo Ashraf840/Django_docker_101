@@ -17,3 +17,9 @@ Define a specific host port in the docker-compose yml file.
 		- 80:8080
 		The host port of 80 will connect to the clustered container port of 8080.
 		Resource Link https://www.baeldung.com/ops/docker-compose-expose-vs-ports
+
+Used the following CMD to check websocket connectivity
+	-> wscat -c "ws://127.0.0.1:8001/ws/homepage/"
+
+To locate & serve the media & static files from the proxy service of docker-compose, follow the steps below:
+	-> 

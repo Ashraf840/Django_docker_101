@@ -27,7 +27,10 @@ RUN chmod -R 755 /vol/web
 
 EXPOSE 8080
 
-RUN python manage.py collectstatic --noinput
+# RUN python manage.py collectstatic --noinput
+RUN python manage.py collectstatic
+RUN python manage.py makemigrations
+RUN python manage.py migrate
 
 # CMD ["uwsgi", "--http", ":8080", "--module", "app.wsgi:application"]
 # CMD ["uwsgi", "--http", ":8080", "--module", "app.wsgi:application", "--pythonpath", "/app"]

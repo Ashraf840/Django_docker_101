@@ -24,8 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'changemeDevServer')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = bool(int(os.environ.get('DEBUG', 0)))   # Original
-DEBUG = bool(int(os.environ.get('DEBUG', 1)))   # Modified
+DEBUG = bool(int(os.environ.get('DEBUG', 0)))   # Original
+# DEBUG = bool(int(os.environ.get('DEBUG', 1)))   # Modified
 # DEBUG = True
 
 ALLOWED_HOSTS = []
@@ -158,9 +158,11 @@ if DEBUG:
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 else:
     # print("Debug False; prod env")
-    STATIC_URL = "/static/static/"
-    MEDIA_URL = "/static/media/"
+    # These locations will be sent to the frontend template by django which will be used by NGINX to navigate to the "static" & "media" dirs prefexing the STATIC_ROOT & MEDIA_ROOT dirs
+    STATIC_URL = "/static/"
+    MEDIA_URL = "/media/"
 
+    # These locations in the container where the static & media files will be collected & stored.
     STATIC_ROOT = '/vol/web/static'
     MEDIA_ROOT = '/vol/web/media'
 

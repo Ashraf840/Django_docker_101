@@ -4,7 +4,7 @@ from .forms import HomeForm
 
 def index(request):
     record = HomeModel.objects.last()
-    print("record:", record)
+    print("Homepage record:", record)
     form = HomeForm()
     # print("record image:", record.image)
     context = {
@@ -18,4 +18,5 @@ def uploadok(request):
         form = HomeForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            print("A new record is created!")
             return redirect('index')
