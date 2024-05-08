@@ -39,7 +39,7 @@
                     <tbody>
                         {% for person in persons %}
                         <tr>
-                            <th scope="row">1</th>
+                            <th scope="row">{{ forloop.counter }}</th>
                             <td>{{ person.name }}</td>
                         </tr>
                         {% endfor %}
