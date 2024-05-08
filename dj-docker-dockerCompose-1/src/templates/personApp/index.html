@@ -34,13 +34,17 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Name</th>
+                            <th scope="col">Profile Picture</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for person in persons %}
                         <tr>
-                            <th scope="row">{{ forloop.counter }}</th>
-                            <td>{{ person.name }}</td>
+                            <th scope="row" class="align-middle">{{ forloop.counter }}</th>
+                            <td class="align-middle">{{ person.name }}</td>
+                            <td class="align-middle">
+                                <img src="{{ person.profile_pic.url }}" alt="Profile Picture" width="80" height="80">
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
