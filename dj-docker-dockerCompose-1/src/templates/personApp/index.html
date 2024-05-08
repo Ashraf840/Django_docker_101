@@ -12,6 +12,7 @@
 <body>
     <div class="container text-center">
         <h1 class="my-5">Simple CRUD Opts | Dockerization</h1>
+        <!-- Name Input Form -->
         <div class="row">
             <div class="col">
                 <form method="POST">
@@ -24,6 +25,29 @@
                 </form>
             </div>
         </div>
+        <!-- Name Display Table -->
+        {% if persons %}
+        <div class="row mt-5">
+            <div class="col">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for person in persons %}
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>{{ person.name }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
     </div>
 </body>
 
