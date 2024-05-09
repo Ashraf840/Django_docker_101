@@ -15,11 +15,15 @@
         <!-- Name Input Form -->
         <div class="row">
             <div class="col">
-                <form method="POST">
+                <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="mb-3 d-flex flex-row">
                         <label for="name" class="form-label pe-5 mt-1 fs-3">Name</label>
                         <input type="text" class="form-control ps-5" id="name" name="name" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3 d-flex flex-row">
+                        <label for="formFile" class="form-label pe-5 fs-4">Picture</label>
+                        <input class="form-control ps-5" type="file" id="formFile" name="image">
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
@@ -43,7 +47,11 @@
                             <th scope="row" class="align-middle">{{ forloop.counter }}</th>
                             <td class="align-middle">{{ person.name }}</td>
                             <td class="align-middle">
+                                {% if person.profile_pic %}
                                 <img src="{{ person.profile_pic.url }}" alt="Profile Picture" width="80" height="80">
+                                {% else %}
+                                <img src="#" alt="No Profile Picture" width="80" height="80">
+                                {% endif %}
                             </td>
                         </tr>
                         {% endfor %}

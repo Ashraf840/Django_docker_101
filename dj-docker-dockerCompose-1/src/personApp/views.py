@@ -10,5 +10,10 @@ class PersonPageView(View):
         return render(request, 'personApp/index.html', context)
     
     def post(self, request):
-        Person.objects.create(name=request.POST.get("name"))
+        # print("Image:", request.FILES.get('image'))
+        image = request.FILES.get('image')
+        Person.objects.create(
+            name=request.POST.get("name"),
+            profile_pic=image if image else None
+        )
         return redirect('personApp:PersonPageView')
