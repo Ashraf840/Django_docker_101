@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  app:
+    image: django-docker-deploy:1.0
+    build:
+      context: .
+    volumes:
+      - static_data:/vol/web
+    environment:
+      - SECRET_KEY=django-insecure-duf$gyve+1fra5!3#zkz=3smrs3s%4&+g7a36iziw2ky8br466
+      - ALLOWED_HOSTS=127.0.0.1,localhost
+
+  proxy:
+    build:
+      context: ./nginx
+    volumes:
+      - static_data:/vol/static
+    ports:
+      - "8080:8080"
+    depends_on:
+      - app
+
+volumes:
+  static_data:
